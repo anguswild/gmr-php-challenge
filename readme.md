@@ -1,10 +1,15 @@
+# Giant Monkey Robot PHP Challenge
+![alt text](https://github.com/anguswild/gmr-php-challenge/blob/main/public/logo.jpg "Logo")
+
 ## Table of contents
 * [General info](#general-info)
 * [Challenge Description](#challenge-description)
-* [Technologies](#technologies)
+* [APP Technologies](#APP-technologies)
+* [Server Technologies](#APP-technologies)
 * [Setup](#setup)
 
 ## General info
+https://github.com/anguswild/gmr-php-challenge/blob/main/public/logo.jpg
 This API REST is made by Patricio Quezada Habert for the Giant Monkey Robot PHP Programming Challenge
 
 Challenge description:
@@ -22,31 +27,59 @@ Provide a way to get current average processing time. Consider using a caching m
 
 What to submit:
 
-●	Source code
-●	Instructions for installing / testing (we welcome scripts)
-●	Data for testing
-●	Rest API documentation
+* Source code
+* Instructions for installing / testing (we welcome scripts)
+* Data for testing
+* Rest API documentation
 
 
 ## Challenge Description
 	
-## Technologies
-Challenge is created with:
+## APP Technologies
+The Challenge has been created with:
 * Laravel: 7.30.4 | Base Framework
 * Laravel Passport: 8.0 | For OAUTH2 based authentication
-* Predis: 1.1 | For Jobs and Queue processing
+* Predis: 1.1 | For Jobs and Queue processing 
 * Laravel Horizon: 4.3.5 | For Jobs and Queue monitoring
 * L5-Swagger: 8.0 | For API Rest Documentation with OAS3 Standard
+* Spatie Laravel-permission | For Associating users with roles and permissions
+
+## Server Technologies
+The Server that holds the Challenge is using:
+* Docker
+* PHP-FPM (with Zeng Engine OPCACHE)
+* Nginx (Linux Alpine Version for Docker)
+* Mysql
+* Redis
 	
 ## Setup
-To run this project, install it:
+To run this project, you must install it in a docker environment with the following commands:
 
 ```
-$ git clone http://foo.bar
-$ composer install
-$ cp .env.example .env
-$ php artisan key:generate
-$ php artisan migrate --seed
-$ php artisan passport:install
-
+git clone https://github.com/anguswild/gmr-php-challenge.git
+docker-compose up -d
+docker exec app composer install
+cp .env.example .env
+docker-compose exec app php artisan key:generate
+docker-compose exec app php artisan migrate --seed
+docker-compose exec app php artisan passport:install
 ```
+
+The following credentials contain all permissions to test the system:
+```
+admin:8dB8ZFfWcmB3ZkqL
+```
+
+
+Additionally we have the following commands:
+
+For Redis Job Queue Processing
+```
+docker-compose exec app php artisan queue:work
+```
+
+For PHP UNIT Testing ( Only for auth, sorry :( )
+```
+docker-compose exec app php artisan test
+```
+
