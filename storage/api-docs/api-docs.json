@@ -1,0 +1,847 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Giant Monkey Robot Programming Challenge",
+        "description": "PHP APIREST for the Giant Monkey Robot PHP Challenge",
+        "contact": {
+            "email": "patricio.quezada05@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/jobs/new": {
+            "post": {
+                "tags": [
+                    "jobs"
+                ],
+                "summary": "New Job",
+                "description": "ENDPOINT so that the client can create a new job.",
+                "operationId": "newJob",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "Bearer <Token>"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Priority and Command of the Job",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "priority",
+                                    "command"
+                                ],
+                                "properties": {
+                                    "priority": {
+                                        "type": "string",
+                                        "format": "priority",
+                                        "example": "low"
+                                    },
+                                    "command": {
+                                        "type": "string",
+                                        "format": "command",
+                                        "example": "2+2"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Job Dispatched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "format": "success",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "format": "data",
+                                            "example": "Job details"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Dispatched job {id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/jobs/get": {
+            "get": {
+                "tags": [
+                    "jobs"
+                ],
+                "summary": "Get Job for procesing",
+                "description": "ENDPOINT so that the Job Processor can get a Priority Accepted Job and execute his command",
+                "operationId": "getJob",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "Bearer <Token>"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Job Processed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "format": "success",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "format": "data",
+                                            "example": "Job details"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Processed job {id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "No job to process",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "format": "success",
+                                            "example": "false"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "format": "data",
+                                            "example": "No Data"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No job to process"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/jobs/{id}": {
+            "get": {
+                "tags": [
+                    "jobs"
+                ],
+                "summary": "Get Status of a Job with an specific ID",
+                "description": "ENDPOINT so that the Client can check the status of a Job",
+                "operationId": "getJob",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "Bearer <Token>"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Job Processed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "format": "success",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "format": "data",
+                                            "example": "Job details"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Processed job {id}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "No job found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "format": "success",
+                                            "example": "false"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "format": "data",
+                                            "example": "No Data"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No job found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Sign in",
+                "description": "Login by username, password",
+                "operationId": "authLogin",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "format": "username",
+                                        "example": "admin"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "api/users/details": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "User Details",
+                "description": "Get user details of the current authenticated user",
+                "operationId": "userDetails",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "Bearer <Token>"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "format": "success",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "format": "data",
+                                            "example": "user details"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User Details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "api/users": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "User List",
+                "description": "Get a list of all the users in the api",
+                "operationId": "userIndex",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "Bearer <Token>"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "format": "success",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "format": "data",
+                                            "example": "{List of Users}"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "List of all Users"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "api/users/{id}": {
+            "get": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "One User",
+                "description": "Get the details of a especific user",
+                "operationId": "getUser",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "Bearer <Token>"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "format": "success",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "format": "data",
+                                            "example": "user details"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User Details"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/users": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "User Registration",
+                "description": "User Registration",
+                "operationId": "authLogin",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "Bearer <Token>"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Required fields for user registration",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "c_password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "format": "username",
+                                        "example": "admin"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "name",
+                                        "example": "User Test"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    },
+                                    "c_password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "User registration details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "format": "success",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "format": "data",
+                                            "example": "User details"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registered user successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "delete": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "User deletion",
+                "description": "User Deletion",
+                "operationId": "authLogin",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "application/json"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": "Bearer <Token>"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "User deletion details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "format": "success",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "format": "data",
+                                            "example": "User details"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "security": [
+        []
+    ],
+    "tags": [
+        {
+            "name": "auth",
+            "description": "API Endpoints for authentication"
+        },
+        {
+            "name": "jobs",
+            "description": "API Endpoints for jobs management"
+        }
+    ]
+}
