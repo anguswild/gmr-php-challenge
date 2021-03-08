@@ -4,9 +4,10 @@
 ## Table of contents
 * [General info](#general-info)
 * [Challenge Description](#challenge-description)
-* [APP Technologies](#APP-technologies)
-* [Server Technologies](#APP-technologies)
+* [APP Technologies](#app-technologies)
+* [Server Technologies](#server-technologies)
 * [Setup](#setup)
+* [Additional Information](#additional-information)
 
 ## General info
 https://github.com/anguswild/gmr-php-challenge/blob/main/public/logo.jpg
@@ -80,3 +81,8 @@ For PHP UNIT Testing ( Only for auth, sorry :( )
 docker-compose exec app php artisan test
 ```
 
+## Additional Information
+
+When the application is installed, it is important to note that there are two FRONTEND routes
+* %APP_URL%/ (Index of the application that shows all the routes and documentation of the api)
+* %APP_URL%/horizon/dashboard (For Jobs and Queue real-time monitoring)
