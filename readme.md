@@ -10,7 +10,6 @@
 * [Additional Information](#additional-information)
 
 ## General info
-https://github.com/anguswild/gmr-php-challenge/blob/main/public/logo.jpg
 This API REST is made by Patricio Quezada Habert for the Giant Monkey Robot PHP Programming Challenge
 
 ## Challenge Description
