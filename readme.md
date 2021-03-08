@@ -12,7 +12,7 @@
 https://github.com/anguswild/gmr-php-challenge/blob/main/public/logo.jpg
 This API REST is made by Patricio Quezada Habert for the Giant Monkey Robot PHP Programming Challenge
 
-Challenge description:
+## Challenge Description
 Implement a priority queue web-api server (REST API), that can be used to add and update “jobs” on a queue. Each job consists of a job id, submitter’s id, processor’s id (if its being processed) and a command to execute.
 
 Job processors must be able to pick the current non-completed job with the highest priority. No two job processors should pick the same job.
@@ -31,9 +31,6 @@ What to submit:
 * Instructions for installing / testing (we welcome scripts)
 * Data for testing
 * Rest API documentation
-
-
-## Challenge Description
 	
 ## APP Technologies
 The Challenge has been created with:
